@@ -18,33 +18,42 @@
 
 <div class="jumbotron">
 	<div class="container">
-		<h1>Hello <%=data[0].username%> Welcome To Your DashBoard</h1>
+		<h1 style="text-align: center;">   Welcome To Your DashBoard
+		<br>
+		<span style="color: #78A37F;"> <%=data[0].username%></span>
+		</h1>
 		<br>
 		<div class="jumbotron">
-<div class="row">
+<div class="row" style="align-items: center; justify-content: space-around;">
 		<div
 			class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
 	
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<h3 class="panel-title">Your Details :-</h3>
+					<h3 class="panel-title" style="text-align: center; color: #78A37F;"> Your Details</h3>
 				</div>
 				<div class="panel-body">
 					<div class="row">
-						<div class=" col-md-9 col-lg-9 ">
+						<div class=" col-md-12 col-lg-12 ">
 							<table class="table table-user-information">
-								<tbody>
+								<tbody style="text-align: center;">
+									<tr style="font-weight: 600;">
+										<td>Name</td>
+										
+										<td> User Name</td>
+										<td>Mobile No</td>
+										<td>Email</td>
+										<!-- <td>Email</td> -->
+									</tr>
 									<tr>
-										<td>Name:</td>
 										<td><%=data[0].Fname%> <%=data[0].Lname%></td>
-									</tr>
-									<tr>
-										<td>User Name:</td>
 										<td><%=data[0].username%></td>
-									</tr>
-									<tr>
-										<td>Mobile:</td>
 										<td><%=data[0].mobile_num%></td>
+										<td><%=data[0].email%></td>
+									</tr>
+									<!-- <tr>
+										<td>Mobile:</td>
+										<td></td>
 									</tr>
 									<tr>
 										<td>Email:</td>
@@ -61,7 +70,7 @@
 									<tr>
 										
 										<td><%=data[0].city%></td>
-									</tr>
+									</tr> -->
 								</tbody>
 							</table>
 						</div>
@@ -74,16 +83,16 @@
 		<br>
 		<div class="row">
 			<div class="col-lg-3">
-				<a href="/home/AccountSettings" class="btn btn-primary btn-lg"><i class="fa fa-cog" aria-hidden="true"></i> Account Settings</a>
+				<a href="/home/AccountSettings" class="btn dash-btn btn-lg"><i class="fa fa-cog" aria-hidden="true"></i> Account Settings</a>
 			</div>
 			<div class="col-lg-3">
-				<a href="/home/SavedCards" class="btn btn-primary btn-lg"><i class="fa fa-credit-card" aria-hidden="true"></i>  Payment Details</a>
+				<a href="/home/SavedCards" class="btn dash-btn btn-lg"><i class="fa fa-credit-card" aria-hidden="true"></i>  Payment Details</a>
 			</div>
 			<div class="col-lg-3">
-				<a href="/Gardening" class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket" aria-hidden="true"></i> Order History</a>
+				<a href="/Gardening" class="btn dash-btn btn-lg"><i class="fa fa-shopping-basket" aria-hidden="true"></i> Order History</a>
 			</div>
 			<div class="col-lg-3">
-				<a href="/Cart" class="btn btn-primary btn-lg"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart Review</a>
+				<a href="/Cart" class="btn dash-btn btn-lg"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart Review</a>
 			</div>
 	
 		</div>
