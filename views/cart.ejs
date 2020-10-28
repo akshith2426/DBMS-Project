@@ -101,11 +101,14 @@
             </div>
     </div>
     <br>
+    <form action="/total-cost/<%=data[0].customer_id +100%> " method="POST">
     <h3  style="float: right;">Total Amount:- <span><i class="fa fa-inr" aria-hidden="true"></i></span><span id="totalamount">0</span></h3>
+    <input type="number" id="cost"  name="totalcost" hidden>
     <br>
     <br>
-    <button class="btn btn-primary" style="float: right;">Proceed To CheckOut</button>
+    <button class="btn btn-primary" style="float: right; ">Proceed To CheckOut</button>
     <br>
+    </form>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"
@@ -140,6 +143,7 @@
         total=total+(parseInt(qty[i].value)*parseInt(price[i].innerHTML))
     }
     totalamount.innerText=total;
+    document.getElementById('cost').value=total;
 
 
     // var totalamount = document.getElementById('totalamount');

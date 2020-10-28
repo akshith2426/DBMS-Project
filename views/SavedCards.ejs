@@ -31,6 +31,18 @@
                 <h3 class="text-center mb-3">New Card Details</h3>
                 <form action="/home/SavedCards/NewCard/<%=randomnum%>" method="POST">
                     <div class="form-group">
+                        <legend for="bankname">Bank Name</legend>
+                        <select name="bankname" id="bankname" class="custom-select" required>
+                            <option value="Axis Bank">Axis Bank</option>
+                            <option value="Canara Bank">Canara Bank</option>
+                            <option value="Bank Of Baroda">Bank Of Baroda</option>
+                            <option value="State Bank Of India">State Bank Of India</option>
+                            <option value="HDFC Bank">HDFC Bank</option>
+                            <option value="City Union Bank"> City Union Bank</option>
+                            <option value="American Bank">Amercian Bank</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <legend for="cardtype">Method Of Payment </legend>
                         <select name="cardtype" id="cardtype" class="custom-select" required>
                             <option value="Mastercard Debit Card"> Mastercard Debit Card</option>
@@ -79,6 +91,7 @@
             <div class="card-body">
                     <p class="card-text"><b>Card Holder Name :-</b> <%=item.cardholdername%></p>
                     <p class="card-text"><b>Card Number :- </b><%=item.cardnumber%></p>
+                    <p class="card-text"><b>Bank Name :- </b><%=item.bankname%></p>
                     <p class="card-text"><b>Expiry Date :- </b><%=item.expirydate%></p>
                     <p class="card-text"><b>CVV :- </b><%=item.cvv%></p>
             </div>

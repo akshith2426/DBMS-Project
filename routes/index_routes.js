@@ -1118,7 +1118,6 @@ router.get('/Cart', (req, resp) => {
     con.query(a, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        console.log(data)
         resp.render('../views/cart.ejs', {data: data, customer: customer})
     });
 })
@@ -1130,7 +1129,6 @@ router.post('/Cart/:id', (req, resp) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(result);
             resp.redirect('/Cart');
         }
     })
@@ -1145,9 +1143,53 @@ router.post('/Cart_Item/:id', (req, resp) => {
         if (err) {
             console.log(err)
         } else {
-            console.log(result);
             resp.redirect('/Cart')
         }
+    })
+})
+var which_card;
+var card = null;
+var total_cost = null;
+router.post('/total-cost/:id', (req, resp) => {
+    var userId = req.session.userId;
+    if (userId == null) {
+        resp.redirect("/login");
+        return;
+    }
+    total_cost = req.body.totalcost;
+    console.log(total_cost)
+    var sql = "SELECT * FROM card_details JOIN customers ON card_details.customer_id=customers.customer_id WHERE card_details.customer_id=?";
+    con.query(sql, [customer], function (err, result) {
+        which_card = result;
+        resp.render('payment.ejs', {data: result,card:card,total_cost:total_cost});
+    });
+})
+
+
+//router for fetching payment details and checkout
+router.get('/Payment-Page', (req, resp) => {
+    var userId = req.session.userId;
+    if (userId == null) {
+        resp.redirect("/login");
+        return;
+    }
+    var sql = "SELECT * FROM card_details JOIN customers ON card_details.customer_id=customers.customer_id WHERE card_details.customer_id=?";
+    con.query(sql, [customer], function (err, result) {
+        which_card = result;
+        resp.render('payment.ejs', {data: result,card:card,total_cost:total_cost});
+    });
+})
+
+
+router.post('/Payment-Page/:id',(req, resp)=> {
+    var id = req.params.id;
+    var card_type = req.body.carddetails;
+    console.log(card_type);
+    var sql_fetch = "SELECT * FROM card_details JOIN customers ON card_details.customer_id=customers.customer_id WHERE card_details.customer_id=? AND card_details.cardtype=?"
+    con.query(sql_fetch, [customer,card_type], function (err, result) {
+        console.log(result)
+        card = result;
+        resp.render('payment.ejs',{data:which_card,card:card,total_cost:total_cost});
     })
 })
 
@@ -1173,14 +1215,15 @@ router.post('/home/SavedCards/NewCard/:id', (req, resp) => {
         return;
     }
     var id = req.params.id;
+    var bankname = req.body.bankname;
     var cardtype = req.body.cardtype;
     var cardholdername = req.body.cardholdername;
     var cardnumber = req.body.cardnumber;
     var expirydate = req.body.expirydate;
     var cvv = req.body.cvv;
     
-    var sql_ques = `INSERT INTO card_details(cardtype,cardholdername,cardnumber,expirydate,cvv,customer_id) VALUES (?,?,?,?,?,?)`;
-    con.query(sql_ques, [cardtype, cardholdername, cardnumber, expirydate, cvv, customer], function (err, results) {
+    var sql_ques = `INSERT INTO card_details(bankname,cardtype,cardholdername,cardnumber,expirydate,cvv,customer_id) VALUES (?,?,?,?,?,?,?)`;
+    con.query(sql_ques, [bankname,cardtype, cardholdername, cardnumber, expirydate, cvv, customer], function (err, results) {
         if (err) {
             console.log(err);
         } else {

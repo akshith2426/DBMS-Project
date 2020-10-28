@@ -61,7 +61,7 @@ body {
 }
 button:hover{
 	background-color: #78A37F;
-	border: none;
+	border: solid;
 }
 a:hover {
 	text-decoration: none;
