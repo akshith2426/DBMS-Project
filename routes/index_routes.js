@@ -84,7 +84,7 @@ router.get('/home/dashboard', (req, res) => {
     var sql = "SELECT * FROM `customers` WHERE `customer_id`='" + userId + "'";
 
     con.query(sql, function (err, result) {
-        res.render('dashboard.ejs', {data: result});
+        res.render('dashboard.ejs', {data: result,userId:userId});
     });
 })
 //-------------account settings page-------------------//
@@ -99,7 +99,7 @@ router.get('/home/AccountSettings', (req, resp) => {
     var sql = "SELECT * FROM `customers` WHERE `customer_id`='" + userId + "'";
 
     con.query(sql, function (err, result) {
-        resp.render('AccountSettings.ejs', {data: result});
+        resp.render('AccountSettings.ejs', {data: result,userId:userId});
     });
 })
 
@@ -146,24 +146,27 @@ router.get('/home/logout', (req, resp) => {
 //-----------------------------------------------------------------------------//
 //Gardening Routes//
 router.get('/Gardening', (req, resp) => {
-    resp.render('../views/Gardening/Gardening.ejs');
+    var userId = req.session.userId;
+    resp.render('../views/Gardening/Gardening.ejs',{userId:userId});
 });
 //Gardening --> Minature Sub Routes//
 router.get('/Gardening/MiniatureGardens', (req, resp) => {
+    var userId = req.session.userId;
     var r = "SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;"
     con.query(r, [1, 2, 3], function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Gardening/MiniatureGardens.ejs', {data: data});
+        resp.render('../views/Gardening/MiniatureGardens.ejs', {data: data,userId:userId});
     });
 });
 //started garden kit routes//
 router.get('/Gardening/MiniatureGardens/GardenKits', (req, resp) => {
+    var userId = req.session.userId;
     var q = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=1"
     con.query(q, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Gardening/GardenKits.ejs', {data: data});
+        resp.render('../views/Gardening/GardenKits.ejs', {data: data,userId:userId});
     });
 });
 router.post('/GardenKits/:id', function (req, resp) {
@@ -185,11 +188,12 @@ router.post('/GardenKits/:id', function (req, resp) {
 
 //completed garden kits routes//
 router.get('/Gardening/MiniatureGardens/Terrariums', (req, resp) => {
+    var userId = req.session.userId;
     var x = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=2"
     con.query(x, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Gardening/Terrariums.ejs', {data: data});
+        resp.render('../views/Gardening/Terrariums.ejs', {data: data,userId:userId});
     });
 });
 router.post('/Terrariums/:id', function (req, resp) {
@@ -209,11 +213,12 @@ router.post('/Terrariums/:id', function (req, resp) {
     });
 });
 router.get('/Gardening/MiniatureGardens/GreenBeauty', (req, resp) => {
+    var userId = req.session.userId;
     var y = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=3"
     con.query(y, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Gardening/GreenBeauty.ejs', {data: data});
+        resp.render('../views/Gardening/GreenBeauty.ejs', {data: data,userId:userId});
 
     })
 });
@@ -235,19 +240,21 @@ router.post('/GreenBeauty/:id', function (req, resp) {
 });
 //Gardening --> Plants By Features Sub Routes
 router.get('/Gardening/PlantsByFeatures', (req, resp) => {
+    var userId = req.session.userId;
     var r = "SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;"
     con.query(r, [4, 5, 6, 7], function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Gardening/PlantsByFea.ejs', {data: data});
+        resp.render('../views/Gardening/PlantsByFea.ejs', {data: data,userId:userId});
     });
 })
 router.get('/Gardening/PlantsByFeatures/AirPurifierPlants', (req, resp) => {
+    var userId = req.session.userId;
     var z = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=4"
     con.query(z, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Gardening/APPlants.ejs', {data: data});
+        resp.render('../views/Gardening/APPlants.ejs', {data: data,userId:userId});
 
     });
 });
@@ -268,11 +275,12 @@ router.post('/AirPurifierPlants/:id', function (req, resp) {
     });
 });
 router.get('/Gardening/PlantsByFeatures/IndoorPlants', (req, resp) => {
+    var userId = req.session.userId;
     var a = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=5"
     con.query(a, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Gardening/IndoorPlants.ejs', {data: data});
+        resp.render('../views/Gardening/IndoorPlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/IndoorPlants/:id', function (req, resp) {
@@ -292,11 +300,12 @@ router.post('/IndoorPlants/:id', function (req, resp) {
     });
 });
 router.get('/Gardening/PlantsByFeatures/HangingPlants', (req, resp) => {
+    var userId = req.session.userId;
     var b = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=6"
     con.query(b, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Gardening/HangingPlants.ejs', {data: data});
+        resp.render('../views/Gardening/HangingPlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/HangingPlants/:id', function (req, resp) {
@@ -316,11 +325,12 @@ router.post('/HangingPlants/:id', function (req, resp) {
     });
 });
 router.get('/Gardening/PlantsByFeatures/CactusPlants', (req, resp) => {
+    var userId = req.session.userId;
     var c = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=7"
     con.query(c, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Gardening/CactusPlants.ejs', {data: data});
+        resp.render('../views/Gardening/CactusPlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/CactusPlants/:id', function (req, resp) {
@@ -342,19 +352,21 @@ router.post('/CactusPlants/:id', function (req, resp) {
 });
 //Gardening --> Plants By Location Sub Routes
 router.get('/Gardening/PlantsByLocation', (req, resp) => {
+    var userId = req.session.userId;
     var r = "SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? ORDER BY products.price LIMIT 3 ;"
     con.query(r, [8, 9, 10], function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Gardening/PlantsByLoc.ejs', {data: data});
+        resp.render('../views/Gardening/PlantsByLoc.ejs', {data: data,userId:userId});
     });
 })
 router.get('/Gardening/PlantsByLocation/VerticalGarden', (req, resp) => {
+    var userId = req.session.userId;
     var d = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=8"
     con.query(d, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Gardening/VerticalGarden.ejs', {data: data});
+        resp.render('../views/Gardening/VerticalGarden.ejs', {data: data,userId:userId});
     });
 })
 router.post('/VerticalGarden/:id', function (req, resp) {
@@ -375,11 +387,12 @@ router.post('/VerticalGarden/:id', function (req, resp) {
     });
 });
 router.get('/Gardening/PlantsByLocation/BalconyGarden', (req, resp) => {
+    var userId = req.session.userId;
     var e = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=9"
     con.query(e, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Gardening/BalconyGarden.ejs', {data: data});
+        resp.render('../views/Gardening/BalconyGarden.ejs', {data: data,userId:userId});
     });
 })
 router.post('/BalconyGarden/:id', function (req, resp) {
@@ -400,11 +413,12 @@ router.post('/BalconyGarden/:id', function (req, resp) {
     });
 });
 router.get('/Gardening/PlantsByLocation/TerraceGarden', (req, resp) => {
+    var userId = req.session.userId;
     var f = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=10"
     con.query(f, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Gardening/TerraceGarden.ejs', {data: data});
+        resp.render('../views/Gardening/TerraceGarden.ejs', {data: data,userId:userId});
     });
 })
 router.post('/TerraceGarden/:id', function (req, resp) {
@@ -427,19 +441,21 @@ router.post('/TerraceGarden/:id', function (req, resp) {
 
 //Gardening --> Plants By Seasons Sub Routes
 router.get('/Gardening/PlantsBySeasons', (req, resp) => {
+    var userId = req.session.userId;
     var r = "SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;"
     con.query(r, [11, 12, 13], function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Gardening/PlantsBySea.ejs', {data: data});
+        resp.render('../views/Gardening/PlantsBySea.ejs', {data: data,userId:userId});
     });
 })
 router.get('/Gardening/PlantsBySeasons/WinterPlants', (req, resp) => {
+    var userId = req.session.userId;
     var g = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=11"
     con.query(g, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Gardening/WinterPlants.ejs', {data: data});
+        resp.render('../views/Gardening/WinterPlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/WinterPlants/:id', function (req, resp) {
@@ -460,11 +476,12 @@ router.post('/WinterPlants/:id', function (req, resp) {
     });
 });
 router.get('/Gardening/PlantsBySeasons/MonsoonPlants', (req, resp) => {
+    var userId = req.session.userId;
     var h = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=13"
     con.query(h, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Gardening/MonsoonPlants.ejs', {data: data});
+        resp.render('../views/Gardening/MonsoonPlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/MonsoonPlants/:id', function (req, resp) {
@@ -485,11 +502,12 @@ router.post('/MonsoonPlants/:id', function (req, resp) {
     });
 });
 router.get('/Gardening/PlantsBySeasons/SummerPlants', (req, resp) => {
+    var userId = req.session.userId;
     var i = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=12"
     con.query(i, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Gardening/SummerPlants.ejs', {data: data});
+        resp.render('../views/Gardening/SummerPlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/SummerPlants/:id', function (req, resp) {
@@ -512,23 +530,26 @@ router.post('/SummerPlants/:id', function (req, resp) {
 
 //-------------------------------------------------------------------------//
 router.get('/Plants', (req, resp) => {
-    resp.render('../views/Plants/Plants.ejs');
+    var userId = req.session.userId;
+    resp.render('../views/Plants/Plants.ejs', { userId: userId });
 })
 //Plants --> Plants By Type Sub Routes//
 router.get('/Plants/PlantsByType', (req, resp) => {
+    var userId = req.session.userId;
     var z = "SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;"
     con.query(z, [14, 15, 16, 17, 18, 19], function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/PlantsByType.ejs', {data: data});
+        resp.render('../views/Plants/PlantsByType.ejs', {data: data,userId:userId});
     });
 })
 router.get('/Plants/PlantsByType/AvenueTrees', (req, resp) => {
+    var userId = req.session.userId;
     var j = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=14"
     con.query(j, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/AvenueTrees.ejs', {data: data});
+        resp.render('../views/Plants/AvenueTrees.ejs', {data: data,userId:userId});
     });
 })
 router.post('/AvenueTrees/:id', function (req, resp) {
@@ -549,11 +570,12 @@ router.post('/AvenueTrees/:id', function (req, resp) {
     });
 });
 router.get('/Plants/PlantsByType/BonsaiPlants', (req, resp) => {
+    var userId = req.session.userId;
     var k = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=15"
     con.query(k, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/BonsaiPlants.ejs', {data: data});
+        resp.render('../views/Plants/BonsaiPlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/BonsaiPlants/:id', function (req, resp) {
@@ -574,11 +596,12 @@ router.post('/BonsaiPlants/:id', function (req, resp) {
     });
 });
 router.get('/Plants/PlantsByType/ClimbersAndCreepers', (req, resp) => {
+    var userId = req.session.userId;
     var l = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=16"
     con.query(l, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/ClimbersAndCreepers.ejs', {data: data});
+        resp.render('../views/Plants/ClimbersAndCreepers.ejs', {data: data,userId:userId});
     });
 })
 router.post('/ClimbersAndCreepers/:id', function (req, resp) {
@@ -599,11 +622,12 @@ router.post('/ClimbersAndCreepers/:id', function (req, resp) {
     });
 });
 router.get('/Plants/PlantsByType/Ferns', (req, resp) => {
+    var userId = req.session.userId;
     var m = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=17"
     con.query(m, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/Ferns.ejs', {data: data});
+        resp.render('../views/Plants/Ferns.ejs', {data: data,userId:userId});
     });
 })
 router.post('/Ferns/:id', function (req, resp) {
@@ -624,11 +648,12 @@ router.post('/Ferns/:id', function (req, resp) {
     });
 });
 router.get('/Plants/PlantsByType/FruitPlants', (req, resp) => {
+    var userId = req.session.userId;
     var n = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=18"
     con.query(n, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/FruitPlants.ejs', {data: data});
+        resp.render('../views/Plants/FruitPlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/FruitPlants/:id', function (req, resp) {
@@ -649,11 +674,12 @@ router.post('/FruitPlants/:id', function (req, resp) {
     });
 });
 router.get('/Plants/PlantsByType/FicusAndFig', (req, resp) => {
+    var userId = req.session.userId;
     var o = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=19"
     con.query(o, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/FicusAndFig.ejs', {data: data});
+        resp.render('../views/Plants/FicusAndFig.ejs', {data: data,userId:userId});
     });
 })
 router.post('/FicusAndFig/:id', function (req, resp) {
@@ -676,19 +702,21 @@ router.post('/FicusAndFig/:id', function (req, resp) {
 
 //Plants --> Flowering Plants Sub Routes
 router.get('/Plants/FloweringPlants', (req, resp) => {
+    var userId = req.session.userId;
     var z = "SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;"
     con.query(z, [20, 21, 22, 23, 24, 25], function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/FloweringPlants.ejs', {data: data});
+        resp.render('../views/Plants/FloweringPlants.ejs', {data: data,userId:userId});
     });
 })
 router.get('/Plants/FloweringPlants/RosePlants', (req, resp) => {
+    var userId = req.session.userId;
     var o = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=20"
     con.query(o, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/RosePlants.ejs', {data: data});
+        resp.render('../views/Plants/RosePlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/RosePlants/:id', function (req, resp) {
@@ -709,11 +737,12 @@ router.post('/RosePlants/:id', function (req, resp) {
     });
 });
 router.get('/Plants/FloweringPlants/JasminePlants', (req, resp) => {
+    var userId = req.session.userId;
     var o = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=21"
     con.query(o, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/JasminePlants.ejs', {data: data});
+        resp.render('../views/Plants/JasminePlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/JasminePlants/:id', function (req, resp) {
@@ -734,11 +763,12 @@ router.post('/JasminePlants/:id', function (req, resp) {
     });
 });
 router.get('/Plants/FloweringPlants/HibiscusPlants', (req, resp) => {
+    var userId = req.session.userId;
     var p = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=22"
     con.query(p, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/HibiscusPlants.ejs', {data: data});
+        resp.render('../views/Plants/HibiscusPlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/HibiscusPlants/:id', function (req, resp) {
@@ -759,11 +789,12 @@ router.post('/HibiscusPlants/:id', function (req, resp) {
     });
 });
 router.get('/Plants/FloweringPlants/BougainvilleaPlants', (req, resp) => {
+    var userId = req.session.userId;
     var p = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=23"
     con.query(p, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/BougainvilleaPlants.ejs', {data: data});
+        resp.render('../views/Plants/BougainvilleaPlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/BougainvilleaPlants/:id', function (req, resp) {
@@ -784,11 +815,12 @@ router.post('/BougainvilleaPlants/:id', function (req, resp) {
     });
 });
 router.get('/Plants/FloweringPlants/FloweringCreepers', (req, resp) => {
+    var userId = req.session.userId;
     var p = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=24"
     con.query(p, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/FloweringCreepers.ejs', {data: data});
+        resp.render('../views/Plants/FloweringCreepers.ejs', {data: data,userId:userId});
     });
 })
 router.post('/FloweringCreepers/:id', function (req, resp) {
@@ -809,11 +841,12 @@ router.post('/FloweringCreepers/:id', function (req, resp) {
     });
 });
 router.get('/Plants/FloweringPlants/FloweringTrees', (req, resp) => {
+    var userId = req.session.userId;
     var p = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=25"
     con.query(p, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/FloweringTrees.ejs', {data: data});
+        resp.render('../views/Plants/FloweringTrees.ejs', {data: data,userId:userId});
     });
 })
 router.post('/FloweringTrees/:id', function (req, resp) {
@@ -835,19 +868,21 @@ router.post('/FloweringTrees/:id', function (req, resp) {
 });
 //Plants Foliage Plants Sub Routes
 router.get('/Plants/FoliagePlants', (req, resp) => {
+    var userId = req.session.userId;
     var z = "SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;"
     con.query(z, [26, 27, 28, 29, 30], function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/FoliagePlants.ejs', {data: data});
+        resp.render('../views/Plants/FoliagePlants.ejs', {data: data,userId:userId});
     });
 })
 router.get('/Plants/FoliagePlants/MoneyPlants', (req, resp) => {
+    var userId = req.session.userId;
     var p = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=26"
     con.query(p, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/MoneyPlants.ejs', {data: data});
+        resp.render('../views/Plants/MoneyPlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/MoneyPlants/:id', function (req, resp) {
@@ -868,11 +903,12 @@ router.post('/MoneyPlants/:id', function (req, resp) {
     });
 });
 router.get('/Plants/FoliagePlants/JadePlants', (req, resp) => {
+    var userId = req.session.userId;
     var p = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=27"
     con.query(p, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/JadePlants.ejs', {data: data});
+        resp.render('../views/Plants/JadePlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/JadePlants/:id', function (req, resp) {
@@ -893,11 +929,12 @@ router.post('/JadePlants/:id', function (req, resp) {
     });
 });
 router.get('/Plants/FoliagePlants/DracaenaPlants', (req, resp) => {
+    var userId = req.session.userId;
     var p = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=28"
     con.query(p, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/DracaenaPlants.ejs', {data: data});
+        resp.render('../views/Plants/DracaenaPlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/DracaenaPlants/:id', function (req, resp) {
@@ -918,11 +955,12 @@ router.post('/DracaenaPlants/:id', function (req, resp) {
     });
 });
 router.get('/Plants/FoliagePlants/CrotonPlants', (req, resp) => {
+    var userId = req.session.userId;
     var p = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=29"
     con.query(p, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/CrotonPlants.ejs', {data: data});
+        resp.render('../views/Plants/CrotonPlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/CrotonPlants/:id', function (req, resp) {
@@ -943,11 +981,12 @@ router.post('/CrotonPlants/:id', function (req, resp) {
     });
 });
 router.get('/Plants/FoliagePlants/AraliaPlants', (req, resp) => {
+    var userId = req.session.userId;
     var p = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=30"
     con.query(p, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/AraliaPlants.ejs', {data: data});
+        resp.render('../views/Plants/AraliaPlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/AraliaPlants/:id', function (req, resp) {
@@ -969,19 +1008,21 @@ router.post('/AraliaPlants/:id', function (req, resp) {
 });
 //Plants Plants By Uses Sub Routes
 router.get('/Plants/PlantsByUses', (req, resp) => {
+    var userId = req.session.userId;
     var r = "SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;SELECT products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=? LIMIT 3;"
     con.query(r, [31, 32, 33], function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/PlantsByUses.ejs', {data: data});
+        resp.render('../views/Plants/PlantsByUses.ejs', {data: data,userId:userId});
     });
 })
 router.get('/Plants/PlantsByUses/MedicinalPlants', (req, resp) => {
+    var userId = req.session.userId;
     var p = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=31"
     con.query(p, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/MedicinalPlants.ejs', {data: data});
+        resp.render('../views/Plants/MedicinalPlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/MedicinalPlants/:id', function (req, resp) {
@@ -1002,11 +1043,12 @@ router.post('/MedicinalPlants/:id', function (req, resp) {
     });
 });
 router.get('/Plants/PlantsByUses/AromaticPlants', (req, resp) => {
+    var userId = req.session.userId;
     var p = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=33"
     con.query(p, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/AromaticPlants.ejs', {data: data});
+        resp.render('../views/Plants/AromaticPlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/AromaticPlants/:id', function (req, resp) {
@@ -1027,11 +1069,12 @@ router.post('/AromaticPlants/:id', function (req, resp) {
     });
 });
 router.get('/Plants/PlantsByUses/InsectRepellentPlants', (req, resp) => {
+    var userId = req.session.userId;
     var p = "SELECT products.product_id,products.product_name,products.Prod_image,products.price,products.review,category.Category_name FROM products JOIN category ON products.Category_Id=category.Category_Id WHERE products.Category_Id=32"
     con.query(p, function (err, result, fields) {
         if (err) throw err;
         var data = result;
-        resp.render('../views/Plants/InsectRepellentPlants.ejs', {data: data});
+        resp.render('../views/Plants/InsectRepellentPlants.ejs', {data: data,userId:userId});
     });
 })
 router.post('/InsectRepellentPlants/:id', function (req, resp) {
@@ -1055,59 +1098,70 @@ router.post('/InsectRepellentPlants/:id', function (req, resp) {
 
 //-----------------------------------------------------------------------------//
 router.get('/Seeds', (req, resp) => {
-    resp.render('../views/Seeds/Seeds.ejs');
+    var userId = req.session.userId;
+    resp.render('../views/Seeds/Seeds.ejs',{userId:userId});
 })
 router.get('/Seeds/HerbSeeds', (req, resp) => {
-    resp.render('../views/Seeds/HerbSeeds.ejs');
+    var userId = req.session.userId;
+    resp.render('../views/Seeds/HerbSeeds.ejs',{userId:userId});
 })
 router.get('/Seeds/FloweringSeeds', (req, resp) => {
-    resp.render('../views/Seeds/FloweringSeeds.ejs');
+    var userId = req.session.userId;
+    resp.render('../views/Seeds/FloweringSeeds.ejs',{userId:userId});
 })
 router.get('/Seeds/ForestrySeeds', (req, resp) => {
-    resp.render('../views/Seeds/ForestrySeeds.ejs');
+    var userId = req.session.userId;
+    resp.render('../views/Seeds/ForestrySeeds.ejs',{userId:userId});
 })
 
 //Other Seeds  Sub Routes
 router.get('/Seeds/OtherSeeds', (req, resp) => {
-    resp.render('../views/Seeds/OtherSeeds.ejs');
+    var userId = req.session.userId;
+    resp.render('../views/Seeds/OtherSeeds.ejs',{userId:userId});
 })
 router.get('/Seeds/OtherSeeds/FruitSeeds', (req, resp) => {
-    resp.render('../views/Seeds/FruitSeeds.ejs');
+    var userId = req.session.userId;
+    resp.render('../views/Seeds/FruitSeeds.ejs',{userId:userId});
 })
 router.get('/Seeds/OtherSeeds/GrassSeeds', (req, resp) => {
-    resp.render('../views/Seeds/GrassSeeds.ejs');
+    var userId = req.session.userId;
+    resp.render('../views/Seeds/GrassSeeds.ejs',{userId:userId});
 })
 
 
 //--------------------------------------------------------------------------//
 //Soil And Fertilizer Routes
 router.get('/SoilAndFertilizer', (req, resp) => {
-    resp.render('../views/SoilAndFertilizer/SoilAndFertilizer.ejs');
+    var userId = req.session.userId;
+    resp.render('../views/SoilAndFertilizer/SoilAndFertilizer.ejs',{userId:userId});
 })
 router.get('/SoilAndFertilizer/PottingSoilMixes', (req, resp) => {
-    resp.render('../views/SoilAndFertilizer/PottingSoilMixes.ejs');
+    var userId = req.session.userId;
+    resp.render('../views/SoilAndFertilizer/PottingSoilMixes.ejs',{userId:userId});
 })
 router.get('/SoilAndFertilizer/Fertilizer', (req, resp) => {
-    resp.render('../views/SoilAndFertilizer/Fertilizer.ejs');
+    var userId = req.session.userId;
+    resp.render('../views/SoilAndFertilizer/Fertilizer.ejs',{userId:userId});
 })
 router.get('/SoilAndFertilizer/SoilAmendments', (req, resp) => {
-    resp.render('../views/SoilAndFertilizer/SoilAmendments.ejs');
+    var userId = req.session.userId;
+    resp.render('../views/SoilAndFertilizer/SoilAmendments.ejs',{userId:userId});
 })
 router.get('/SoilAndFertilizer/SeedStartingSoils', (req, resp) => {
-    resp.render('../views/SoilAndFertilizer/SeedStartingSoils.ejs');
+    var userId = req.session.userId;
+    resp.render('../views/SoilAndFertilizer/SeedStartingSoils.ejs',{userId:userId});
 })
 
 
 //-----------------------------------------------------------------------------//
 
 router.get('/PestsADC', (req, resp) => {
-    resp.render('../views/PestsADC/PestsADC.ejs');
-});
-router.get('/Accessories', (req, resp) => {
-    resp.render('../views/Accessories/Accessories.ejs');
+    var userId = req.session.userId;
+    resp.render('../views/PestsADC/PestsADC.ejs',{userId:userId});
 });
 
 //-----------------------------------------------------------------------------//
+var items = null;
 router.get('/Cart', (req, resp) => {
     var userId = req.session.userId;
     if (userId == null) {
@@ -1117,8 +1171,8 @@ router.get('/Cart', (req, resp) => {
     var a = "SELECT * FROM cart_item JOIN products ON cart_item.Product_id=products.Product_id ORDER BY products.price"
     con.query(a, function (err, result, fields) {
         if (err) throw err;
-        var data = result;
-        resp.render('../views/cart.ejs', {data: data, customer: customer})
+        items = result;
+        resp.render('../views/cart.ejs', {data: items, customer: customer,userId:userId})
     });
 })
 //route for deleting items from the cart
@@ -1150,6 +1204,7 @@ router.post('/Cart_Item/:id', (req, resp) => {
 var which_card;
 var card = null;
 var total_cost = null;
+var item_id = null;
 router.post('/total-cost/:id', (req, resp) => {
     var userId = req.session.userId;
     if (userId == null) {
@@ -1157,11 +1212,14 @@ router.post('/total-cost/:id', (req, resp) => {
         return;
     }
     total_cost = req.body.totalcost;
-    console.log(total_cost)
+    item_id = req.body.itemid;
+    console.log(item_id.length)
+    
+    
     var sql = "SELECT * FROM card_details JOIN customers ON card_details.customer_id=customers.customer_id WHERE card_details.customer_id=?";
     con.query(sql, [customer], function (err, result) {
         which_card = result;
-        resp.render('payment.ejs', {data: result,card:card,total_cost:total_cost});
+        resp.render('payment.ejs', {data: result,card:card,total_cost:total_cost,userId:userId});
     });
 })
 
@@ -1176,12 +1234,13 @@ router.get('/Payment-Page', (req, resp) => {
     var sql = "SELECT * FROM card_details JOIN customers ON card_details.customer_id=customers.customer_id WHERE card_details.customer_id=?";
     con.query(sql, [customer], function (err, result) {
         which_card = result;
-        resp.render('payment.ejs', {data: result,card:card,total_cost:total_cost});
+        resp.render('payment.ejs', {data: result,card:card,total_cost:total_cost,userId:userId});
     });
 })
 
 
-router.post('/Payment-Page/:id',(req, resp)=> {
+router.post('/Payment-Page/:id', (req, resp) => {
+    var userId = req.session.userId;
     var id = req.params.id;
     var card_type = req.body.carddetails;
     console.log(card_type);
@@ -1189,7 +1248,7 @@ router.post('/Payment-Page/:id',(req, resp)=> {
     con.query(sql_fetch, [customer,card_type], function (err, result) {
         console.log(result)
         card = result;
-        resp.render('payment.ejs',{data:which_card,card:card,total_cost:total_cost});
+        resp.render('payment.ejs',{data:which_card,card:card,total_cost:total_cost,userId:userId});
     })
 })
 
@@ -1205,7 +1264,7 @@ router.get('/home/SavedCards', (req, resp) => {
 
     con.query(sql, [customer], function (err, result) {
         console.log(result)
-        resp.render('SavedCards', {data: result,randomnum:randomnum});
+        resp.render('SavedCards', {data: result,randomnum:randomnum,userId:userId});
     });
 })
 router.post('/home/SavedCards/NewCard/:id', (req, resp) => {
@@ -1228,6 +1287,53 @@ router.post('/home/SavedCards/NewCard/:id', (req, resp) => {
             console.log(err);
         } else {
             resp.redirect('/home/SavedCards')
+        }
+    })
+    
+})
+var list = null;
+router.get('/PreviousOrders', (req, resp) => {
+    var userId = req.session.userId;
+    if (userId == null) {
+        resp.redirect("/login");
+        return;
+    }
+    resp.render('../views/order-history.ejs',{list:list,customer:customer,userId:userId})
+})
+
+router.post('/Order-History/:id', (req, resp) => {
+    var userId = req.session.userId;
+    if (userId == null) {
+        resp.redirect("/login");
+        return;
+    }
+        var fetch = "INSERT INTO orderhistory(Cart_Id,customer_id,product_name,Prod_image,price) SELECT cart_item.Cart_Id,cart_item.customer_id,products.product_name,products.Prod_image,products.price FROM cart_item JOIN products ON cart_item.Product_id=products.product_id JOIN customers ON cart_item.customer_id=customers.customer_id WHERE  cart_item.customer_id = ?";
+    con.query(fetch,[customer], function (err, result) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(result)
+            // resp.redirect('/home/dashboard');
+            var delete_query = "DELETE  FROM cart_item WHERE cart_item.customer_id = ?";
+            con.query(delete_query, [customer], function (err1, result1) {
+                if (err1) {
+                    console.log(err1)
+                } else {
+                    console.log(result1);
+                    var select_query = "SELECT * FROM orderhistory WHERE customer_id=?"
+                    con.query(select_query, [customer], function (errors, answer) {
+                        if (errors) {
+                            console.log(errors);
+                        } else {
+                            console.log(answer);
+                            list = answer;
+                            resp.render('../views/order-history.ejs', { list: list, customer: customer,userId:userId });
+                        }
+                    })
+                    
+                }
+            })
+            
         }
     })
     

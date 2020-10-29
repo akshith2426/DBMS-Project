@@ -49,22 +49,19 @@ body {
 }
 .content-para{
 	font-size: medium;
-	text-align: justify;
+	text-align: center;
 }
 .landing-btn{
-	width: 50%;
-	/* margin-left: 25%; */
+	width: 40%;
+	margin-left: 25%;
 	border-radius: 50px;
 	padding: 10px;
-	border: 3px solid #78A37F;
+	border: 4px solid #78A37F;
 	background-color: transparent;
 }
 button:hover{
 	background-color: #78A37F;
 	border: solid;
-}
-a:hover {
-	text-decoration: none;
 }
 nav {
 	background: #212529;
@@ -100,6 +97,9 @@ nav ul li a {
 	text-decoration: none;
 	font-size: 18px;
 	padding: 8px 15px;
+}
+a{
+	text-decoration: none;
 }
 nav ul li a:hover {
 	color: #78A37F;

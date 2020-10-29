@@ -88,10 +88,17 @@
                 <div class="card card-body text-muted">
                         <h4>Sub Total  :- <i class="fa fa-inr" aria-hidden="true"></i> <span id="subtotal"><%=total_cost%></span></h4>
                         <h4>GST :- <i class="fa fa-inr" aria-hidden="true"></i> <span id="gst"><%= total_cost * 0.01%></span> </h4>
-                        <h4>Shipping Charges :- <i class="fa fa-inr" aria-hidden="true"></i> <span id="shipping"><%=total_cost * 0.02%></span> </h4>
+                        <h4>Shipping Charges :- <i class="fa fa-inr" aria-hidden="true"></i> <span id="shipping"><%=total_cost * 0.004%></span> </h4>
                 </div>
                 <div class="card-footer" style="background-color: aquamarine;">
                         <h3>Total :- <i class="fa fa-inr" aria-hidden="true"></i> <span id="totalsum"></span></h3>
+                </div>
+                <br>
+                <br>
+                <div class="form-group">
+                        <form action="/Order-History/<%=data[0].customer_id%>" method="POST">
+                                <button type="submit" class="btn btn-success btn-block">Proceed For Payment</button>
+                        </form>
                 </div>
                 
 </div>
@@ -105,6 +112,7 @@
         var totalsum=document.getElementById('totalsum');
 
         totalsum.innerText=parseFloat(subtotal.innerText)+parseFloat(gst.innerText)+parseFloat(shipping.innerText);
+        totalsum.innerText=totalsum.innerText.toFixed(5)
 
 </script>
 
